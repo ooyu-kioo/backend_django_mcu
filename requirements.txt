@@ -1,4 +1,0 @@
-django
-djangorestframework
-selenium
-chromedriver-binary==73.0.3683.68
