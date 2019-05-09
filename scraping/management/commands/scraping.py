@@ -32,7 +32,8 @@ def main():
     driver.implicitly_wait(20) # 待機時間設定
 
     # jsonファイル読み込み(withを付けるとブロック抜けた時に自動でファイルをclose()してくれる)
-    with open("/Users/yuki-tashiro/Desktop/Source-code/django_vue_mcu/scraping/management/commands/scraping_list.json", "r", encoding = "utf-8") as f:
+    # manage.pyからの起動なので、そこからの相対パス
+    with open("./scraping/management/commands/scraping_list.json", "r", encoding = "utf-8") as f:
         data = json.load(f)
 
     ########################################

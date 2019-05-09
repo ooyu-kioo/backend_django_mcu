@@ -36,6 +36,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware' # add：CORS(開発環境でのみ必要)
 ]
 
+# TODO ドメイン指定ちゃんとやっとく
 # add：CORS 本来はALLはfalseで特定のoriginだけ許可する(開発環境でのみ必要)
 CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ORIGIN_WHITELIST = {

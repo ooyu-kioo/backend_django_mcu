@@ -1,4 +1,4 @@
 django
 djangorestframework
 selenium
-chromedriver-binary==73.0.3683.68
+chromedriver-binary==pip install chromedriver-binary==74.0.3729.6.0
