@@ -36,18 +36,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware' # add：CORS(開発環境でのみ必要)
 ]
 
-# add heroku
-DEBUG = False
-
-try:
-    from .local_settings import *
-except ImportError:
-    pass
-
-if not DEBUG:
-    import django_heroku
-    django_heroku.settings(locals())
-
 # TODO ドメイン指定ちゃんとやっとく
 # add：CORS 本来はALLはfalseで特定のoriginだけ許可する(開発環境でのみ必要)
 CORS_ORIGIN_ALLOW_ALL = True
@@ -125,3 +113,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # add
+
+# add heroku
+DEBUG = False
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+if not DEBUG:
+    import django_heroku
+    django_heroku.settings(locals())
