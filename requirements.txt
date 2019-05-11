@@ -1,7 +1,7 @@
 Django==2.2
 djangorestframework==3.9.2
 django-cors-headers==2.5.2  
-django_heroku
+django_heroku==0.3.0
 
 selenium==3.141.0
 chromedriver-binary==74.0.3729.6.0
