@@ -1,1 +1,1 @@
-web: gunicorn <your-project-name>.wsgi --log-file -
+web: gunicorn django-vue-mcu.wsgi --log-file -
