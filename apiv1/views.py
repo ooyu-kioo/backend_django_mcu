@@ -12,4 +12,5 @@ class InfomationViewSet(viewsets.ReadOnlyModelViewSet): # 情報を参照する�
     serializer_class = InfomationSerializer # serializeするクラスを指定
 
     # Infomation.objects.order_by(“-created_at”)[0:100] # 作成日順に先頭100件
-    
+
+# TODO order_byでソートかける

@@ -36,6 +36,18 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware' # add：CORS(開発環境でのみ必要)
 ]
 
+# add heroku
+DEBUG = False
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+if not DEBUG:
+    import django_heroku
+    django_heroku.settings(locals())
+
 # TODO ドメイン指定ちゃんとやっとく
 # add：CORS 本来はALLはfalseで特定のoriginだけ許可する(開発環境でのみ必要)
 CORS_ORIGIN_ALLOW_ALL = True
@@ -74,7 +86,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
