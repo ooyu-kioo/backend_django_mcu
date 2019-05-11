@@ -27,11 +27,20 @@ def main():
     print("----- custom command [scraping] start -----")
 
     # driver設定
-    options= Options() # chrome driverをheadlessモードで起動
-    options.add_argument('--headless') # ここないとGUIで起動する
+    options= Options()
+    
+    # Heroku用設定(pathが設定されている場合)
+    if chrome_binary_path:
+        options.binary_location = chrome_binary_path
+    
+    options.add_argument('--headless') # chrome driverをheadlessモードで起動
 
     # driverインスタンス作成
-    driver = webdriver.Chrome(options=options)
+    if chrome_binary_path: # Heroku用設定
+        driver = Chrome(executable_path=driver_path, chrome_options=options)
+    else: 
+        driver = webdriver.Chrome(options=options)
+
     driver.implicitly_wait(20) # 待機時間設定
 
     # jsonファイル読み込み(withを付けるとブロック抜けた時に自動でファイルをclose()してくれる)
