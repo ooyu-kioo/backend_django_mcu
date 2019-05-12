@@ -35,8 +35,8 @@ def main():
     
     # Heroku用設定(pathが設定されている場合)
     # if CHROME_BINARY_LOCATION:
-    options.binary_location = CHROME_BINARY_LOCATION
-    # options.binary_location = '/app/.apt/usr/bin/google-chrome'
+    # options.binary_location = CHROME_BINARY_LOCATION
+    options.binary_location = '/app/.apt/usr/bin/google-chrome'
     
     options.add_argument('--headless') # chrome driverをheadlessモードで起動
 
