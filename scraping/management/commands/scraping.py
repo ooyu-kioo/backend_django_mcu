@@ -11,7 +11,7 @@
 #     ・クロールリストjsonのimport > 相対パス、ファイル名で指定できない？
 #     ・一部のinfo__bodyの表示どうする？
 
-import os
+# import os
 import time
 import json
 from django.core.management.base import BaseCommand, CommandError
@@ -28,22 +28,23 @@ def main():
     print("----- custom command [scraping] start -----")
 
     # osの環境変数を取得
-    os.environ()
+    # os.environ()
 
     # driver設定
     options= Options()
     
     # Heroku用設定(pathが設定されている場合)
-    if CHROME_BINARY_LOCATION:
-        options.binary_location = CHROME_BINARY_LOCATION
+    # if CHROME_BINARY_LOCATION:
+    options.binary_location = CHROME_BINARY_LOCATION
+    # options.binary_location = '/app/.apt/usr/bin/google-chrome'
     
     options.add_argument('--headless') # chrome driverをheadlessモードで起動
 
     # driverインスタンス作成
-    if CHROME_BINARY_LOCATION: # Heroku用設定
-        driver = Chrome(options=options)
-    else: 
-        driver = webdriver.Chrome(options=options)
+    # if CHROME_BINARY_LOCATION: # Heroku用設定
+    driver = webdriver.Chrome(options=options)
+    # else: 
+        # driver = webdriver.Chrome(options=options)
 
     driver.implicitly_wait(20) # 待機時間設定
 
