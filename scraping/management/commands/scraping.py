@@ -11,9 +11,10 @@
 #     ・クロールリストjsonのimport > 相対パス、ファイル名で指定できない？
 #     ・一部のinfo__bodyの表示どうする？
 
-from django.core.management.base import BaseCommand, CommandError
+import os
 import time
 import json
+from django.core.management.base import BaseCommand, CommandError
 
 # chromedriver
 import chromedriver_binary
@@ -25,6 +26,9 @@ from selenium.webdriver.chrome.options import Options
 # ファイルを単体実行とmanage.py両方から実行できるよう、main()関数に処理を書いてclass commandに入れてやる
 def main():
     print("----- custom command [scraping] start -----")
+
+    # osの環境変数を取得
+    os.environ()
 
     # driver設定
     options= Options()
