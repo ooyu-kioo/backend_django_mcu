@@ -30,14 +30,14 @@ def main():
     options= Options()
     
     # Heroku用設定(pathが設定されている場合)
-    if chrome_binary_path:
-        options.binary_location = chrome_binary_path
+    if CHROME_BINARY_LOCATION:
+        options.binary_location = CHROME_BINARY_LOCATION
     
     options.add_argument('--headless') # chrome driverをheadlessモードで起動
 
     # driverインスタンス作成
-    if chrome_binary_path: # Heroku用設定
-        driver = Chrome(executable_path=driver_path, chrome_options=options)
+    if CHROME_BINARY_LOCATION: # Heroku用設定
+        driver = Chrome(options=options)
     else: 
         driver = webdriver.Chrome(options=options)
 
