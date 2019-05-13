@@ -69,7 +69,7 @@ def main():
         get_infoTitles = [] # element格納用
         infoTitles     = [] # 要素格納用
         # タグ情報取得
-        if data[data_key]["info_title_get"] == "class":
+        if data[data_key]["info_title_get"] == "class": # 取得方法：class
             get_infoTitles = driver.find_elements_by_class_name(data[data_key]["info_title_el"])
 
 
@@ -79,6 +79,8 @@ def main():
             print(item.text)
             infoTitles.append(item.text)
         print("")
+        # 配列をリバース
+        infoTitles.reverse()
 
 
         #--------------------
@@ -89,7 +91,7 @@ def main():
         get_infoLinks = []
         infoLinks     = []
         # タグ情報取得
-        if data[data_key]["info_body_get"] == "css":
+        if data[data_key]["info_body_get"] == "css": # 取得方法：CSS
             get_infoLinks = driver.find_elements_by_css_selector(data[data_key]["info_body_el"])
 
         # リンク配列格納
@@ -98,6 +100,8 @@ def main():
             print(item.get_attribute('href'))
             infoLinks.append(item.get_attribute("href"))
         print("")
+        # 配列リバース
+        infoLinks.reverse()
 
 
         #-------
