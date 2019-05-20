@@ -1,5 +1,5 @@
 # backend_django_mcu
 
-#### artistのスクレイピングアプリ
+#### artist情報のスクレイピングアプリ
 
 - https://mcu.netlify.com/
