@@ -8,8 +8,7 @@
 #       => ・格納の順番を変えてやる：格納前の配列をリバースする  ・1h間隔くらいなら同時取得も少ないから情報溜まってくのを待つ
 
 # TODO その他
-#     ・クロールリストjsonのimport > 相対パス、ファイル名で指定できない？
-#     ・一部のinfo__bodyの表示どうする？
+
 
 # import os
 import time
@@ -19,11 +18,13 @@ from django.core.management.base import BaseCommand, CommandError
 # chromedriver
 import chromedriver_binary
 # seleniumを動かすドライバ
-from selenium import webdriver 
+from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 
 # ファイルを単体実行とmanage.py両方から実行できるよう、main()関数に処理を書いてclass commandに入れてやる
+
+
 def main():
     print("----- custom command [scraping] start -----")
 
@@ -31,26 +32,26 @@ def main():
     # os.environ()
 
     # driver設定
-    options= Options()
-    
+    options = Options()
+
     # Heroku用設定(pathが設定されている場合)
     # if CHROME_BINARY_LOCATION:
     # options.binary_location = CHROME_BINARY_LOCATION
     options.binary_location = '/app/.apt/usr/bin/google-chrome'
-    
-    options.add_argument('--headless') # chrome driverをheadlessモードで起動
+
+    options.add_argument('--headless')  # chrome driverをheadlessモードで起動
 
     # driverインスタンス作成
     # if CHROME_BINARY_LOCATION: # Heroku用設定
     driver = webdriver.Chrome(options=options)
-    # else: 
-        # driver = webdriver.Chrome(options=options)
+    # else:
+    # driver = webdriver.Chrome(options=options)
 
-    driver.implicitly_wait(20) # 待機時間設定
+    driver.implicitly_wait(20)  # 待機時間設定
 
     # jsonファイル読み込み(withを付けるとブロック抜けた時に自動でファイルをclose()してくれる)
     # manage.pyからの起動なので、そこからの相対パス
-    with open("./scraping/management/commands/scraping_list.json", "r", encoding = "utf-8") as f:
+    with open("./scraping/management/commands/scraping_list.json", "r", encoding="utf-8") as f:
         data = json.load(f)
 
     ########################################
@@ -58,20 +59,20 @@ def main():
     ########################################
     for data_key in data:
 
-        url= data[data_key]["URL"] # アクセスURL(infoに直とび)
-        driver.get(url) # urlページを開く
+        url = data[data_key]["URL"]  # アクセスURL(infoに直とび)
+        driver.get(url)  # urlページを開く
 
-        #--------------------
+        # --------------------
         # infoTitleの取得(sony)
-        #--------------------
+        # --------------------
 
         # 配列初期化
-        get_infoTitles = [] # element格納用
-        infoTitles     = [] # 要素格納用
+        get_infoTitles = []  # element格納用
+        infoTitles = []  # 要素格納用
         # タグ情報取得
-        if data[data_key]["info_title_get"] == "class": # 取得方法：class
-            get_infoTitles = driver.find_elements_by_class_name(data[data_key]["info_title_el"])
-
+        if data[data_key]["info_title_get"] == "class":  # 取得方法：class
+            get_infoTitles = driver.find_elements_by_class_name(
+                data[data_key]["info_title_el"])
 
         # タイトル配列格納
         for i in range(len(get_infoTitles)):
@@ -82,17 +83,17 @@ def main():
         # 配列をリバース
         infoTitles.reverse()
 
-
-        #--------------------
+        # --------------------
         # infoLinkの取得(sony)
-        #--------------------
-        
+        # --------------------
+
         # 配列初期化
         get_infoLinks = []
-        infoLinks     = []
+        infoLinks = []
         # タグ情報取得
-        if data[data_key]["info_body_get"] == "css": # 取得方法：CSS
-            get_infoLinks = driver.find_elements_by_css_selector(data[data_key]["info_body_el"])
+        if data[data_key]["info_body_get"] == "css":  # 取得方法：CSS
+            get_infoLinks = driver.find_elements_by_css_selector(
+                data[data_key]["info_body_el"])
 
         # リンク配列格納
         for i in range(len(get_infoLinks)):
@@ -103,18 +104,18 @@ def main():
         # 配列リバース
         infoLinks.reverse()
 
-
-        #-------
+        # -------
         # DB格納
-        #-------
+        # -------
 
         # 外部ファイルがdjangoのmodelを使用する場合、djangoのsetupが必要
         import os
         import django
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_vue_mcu.settings")
-        django.setup() # (引数１の環境変数が引数２を指定するよう設定)
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE",
+                              "django_vue_mcu.settings")
+        django.setup()  # (引数１の環境変数が引数２を指定するよう設定)
 
-        from scraping.models import Infomation # Infomationテーブルをインポート
+        from scraping.models import Infomation  # Infomationテーブルをインポート
 
         # test インスタンス生成、save これだと何か上手くいかない
         # test = Infomation()
@@ -132,10 +133,11 @@ def main():
         for infoTitle, infoLink in zip(infoTitles, infoLinks):
             info_title = infoTitle
             info_body_link = infoLink
-            try: # id, created_at はdefault設定してるので自動で入る
-                Infomation.objects.create(artist_name = artist_name, info_title = info_title, info_body_link = info_body_link) # Infomationオブジェクト作成
+            try:  # id, created_at はdefault設定してるので自動で入る
+                Infomation.objects.create(
+                    artist_name=artist_name, info_title=info_title, info_body_link=info_body_link)  # Infomationオブジェクト作成
             except:
-                print(f"unique_error. infoTitle： {infoTitle}") # 一意性エラー
+                print(f"unique_error. infoTitle： {infoTitle}")  # 一意性エラー
                 pass
         print("")
         # もしくは
@@ -154,10 +156,10 @@ def main():
     print("----- custom command [scraping] end -----")
 
 
-
 class Command(BaseCommand):
     def handle(self, *args, **options):
         main()
+
 
 if __name__ == '__main__':
     main()
