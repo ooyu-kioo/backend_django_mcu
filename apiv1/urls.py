@@ -1,11 +1,14 @@
 from django.urls import path, include
 from rest_framework import routers
-from . import views # apiv1のviewsをimport
+from . import views  # apiv1のviewsをimport
 # or from .views import InfomationViewSet
 
 # routerにViewSetを登録することで、URLのパターン作成を自動でやってくれる
 router = routers.DefaultRouter()
-router.register("infomation", views.InfomationViewSet) # InfomationViewSetをrouterに設定する
+
+# InfomationViewSet, ReleaseInfoViewSetをrouterに設定する
+router.register("infomation", views.InfomationViewSet)
+router.register("releaseInfo", views.ReleaseInfoViewSet)
 
 # routerをincludeして、URL判定をrouterに任せる
 urlpatterns = [
