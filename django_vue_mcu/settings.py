@@ -20,8 +20,8 @@ INSTALLED_APPS = [
 
     # add
     'rest_framework',
-    'corsheaders', # CORS許可用(開発環境でのみ必要)
-    'scraping.apps.ScrapingConfig', # TODO 普通のアプリめいじゃないのなぜ？
+    'corsheaders',  # CORS許可用(開発環境でのみ必要)
+    'scraping.apps.ScrapingConfig',  # TODO 普通のアプリめいじゃないのなぜ？
     'apiv1.apps.Apiv1Config'
 ]
 
@@ -33,8 +33,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # add：CORS(開発環境でのみ必要)
-    'whitenoise.middleware.WhiteNoiseMiddleware' # add：heroku用
+    'corsheaders.middleware.CorsMiddleware',  # add：CORS(開発環境でのみ必要)
+    'whitenoise.middleware.WhiteNoiseMiddleware'  # add：heroku用
 ]
 
 # TODO ドメイン指定ちゃんとやっとく
@@ -43,6 +43,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ORIGIN_WHITELIST = {
 #     'localhost:8080',
 #     '127.0.0.1:8080'
+#     'localhost:8001'
+#     'mcu.netlify'
 # }
 
 ROOT_URLCONF = 'django_vue_mcu.urls'
@@ -50,7 +52,7 @@ ROOT_URLCONF = 'django_vue_mcu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], # add
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # add
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,9 +100,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'ja' # fix
+LANGUAGE_CODE = 'ja'  # fix
 
-TIME_ZONE = 'Asia/Tokyo' # fix
+TIME_ZONE = 'Asia/Tokyo'  # fix
 
 USE_I18N = True
 
@@ -114,7 +116,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # add
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # add
 
 # add heroku
 DEBUG = False
@@ -123,6 +125,6 @@ try:
 except ImportError:
     pass
 
-if not DEBUG:    
+if not DEBUG:
     import django_heroku
     django_heroku.settings(locals())

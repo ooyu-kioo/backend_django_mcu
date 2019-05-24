@@ -9,7 +9,6 @@
 
 # TODO その他
 
-
 # import os
 import time
 import json
@@ -22,9 +21,8 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 
+
 # ファイルを単体実行とmanage.py両方から実行できるよう、main()関数に処理を書いてclass commandに入れてやる
-
-
 def main():
     print("----- custom command [scraping] start -----")
 
@@ -129,7 +127,6 @@ def main():
         info_body_link = ""
 
         # title,link設定
-        print("")
         for infoTitle, infoLink in zip(infoTitles, infoLinks):
             info_title = infoTitle
             info_body_link = infoLink
@@ -143,8 +140,6 @@ def main():
         # もしくは
         # obj = Infomation(artist_name = , info_title = )
         # obj.save()
-
-# ------------------------------------------------------------------------
 
     # ドライバー終了
     driver.quit()
