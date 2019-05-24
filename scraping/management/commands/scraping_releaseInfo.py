@@ -77,16 +77,11 @@ def main():
 
         get_release_info()  # 最後の１ページスクレイピング
 
-        # 配列リバース
-        artist_names.reverse()
-        release_titles.reverse()
-        release_dates.reverse()
-        buy_urls.reverse()
-
-        print(artist_names)
-        print(release_titles)
-        print(release_dates)
-        print(buy_urls)
+    # 配列リバース
+    artist_names.reverse()
+    release_titles.reverse()
+    release_dates.reverse()
+    buy_urls.reverse()
 
     # -------
     # DB格納
