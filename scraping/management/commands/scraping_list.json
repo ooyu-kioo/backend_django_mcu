@@ -1,10 +1,10 @@
 {
 	"UVERworld": {
-		"URL": "https://www.sonymusic.co.jp/artist/UVERworld/info/",
+		"URL": "http://www.uverworld.jp/news/",
 		"info_title_get": "class",
-		"info_title_el": "infoTitle",
+		"info_title_el": "tit",
 		"info_body_get": "css",
-		"info_body_el": "p.infoTitle > a"
+		"info_body_el": "li.clearfix > a"
 	},
 	"ReoNa": {
 		"URL": "https://www.sonymusic.co.jp/artist/ReoNa/info/",
