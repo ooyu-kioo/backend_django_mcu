@@ -15,9 +15,8 @@ def main():
 
     # driver設定
     options = Options()
-
-    # options.binary_location = '/app/.apt/usr/bin/google-chrome'
-
+    # heroku用に指定
+    options.binary_location = '/app/.apt/usr/bin/google-chrome'
     options.add_argument('--headless')  # chrome driverをheadlessモードで起動
 
     # driverインスタンス作成

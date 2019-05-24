@@ -6,9 +6,8 @@ from django.contrib import admin
 from .models import Infomation
 from .models import ReleaseInfo
 
+
 # 管理画面に表示するapp登録
-
-
 class InfomationModelAdmin(admin.ModelAdmin):
     list_display = ("id", "artist_name", "info_title",
                     "info_body_link", "created_at")  # 表示項目
@@ -23,5 +22,6 @@ class ReleaseInfoModelAdmin(admin.ModelAdmin):
     ordering = ("-created_at",)
 
 
+# 定義クラスを登録
 admin.site.register(Infomation, InfomationModelAdmin)
 admin.site.register(ReleaseInfo, ReleaseInfoModelAdmin)

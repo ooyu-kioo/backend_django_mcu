@@ -29,11 +29,13 @@ class Infomation(models.Model):  # django標準のmodelクラスを継承
 class ReleaseInfo(models.Model):
     class Meta:
         db_table = "releaseInfo"
+        # uniquキー複数指定(全て一致の場合一意性エラー)
+        unique_together = ("artist_name", "release_title", "release_date")
 
     # カラム名定義
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)  # ユニバーサルな一意のid
     artist_name = models.CharField(max_length=300)
-    release_title = models.CharField(max_length=300, unique=True)
+    release_title = models.CharField(max_length=300)
     release_date = models.CharField(max_length=300)
     buy_url = models.CharField(max_length=300)  # Amazonリンク
     created_at = models.DateTimeField(default=timezone.now)  # 作成日時
