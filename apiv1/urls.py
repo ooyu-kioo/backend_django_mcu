@@ -6,7 +6,7 @@ from . import views  # apiv1のviewsをimport
 # routerにViewSetを登録することで、URLのパターン作成を自動でやってくれる
 router = routers.DefaultRouter()
 
-# InfomationViewSet, ReleaseInfoViewSetをrouterに設定する
+# InfomationViewSet, ReleaseInfoViewSetをrouterに設定する(URLに対応するview関数のセット)
 router.register("infomation", views.InfomationViewSet)
 router.register("releaseInfo", views.ReleaseInfoViewSet)
 

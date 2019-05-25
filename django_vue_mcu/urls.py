@@ -20,9 +20,6 @@ from django.views.generic import TemplateView
 # ここにはアプリ毎のrootpathだけ描いてあげる(それ以下のURL判定はそれぞれのアプリに移譲する)
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include("apiv1.urls"))
+    path('api/v1/', include("apiv1.urls"))  # include：他のURLconf=urls.pyに処理を移譲する
     # path('', TemplateView.as_view(template_name = "index.html"))
 ]
-
-# include：他のURLconf=urls.pyに処理を移譲する
-#          上の場合、api/v1/以下のURLはapiv1のurlsに移譲する

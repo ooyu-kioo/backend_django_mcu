@@ -28,9 +28,9 @@ def main():
     with open("./scraping/management/commands/scraping_list.json", "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    ########################################
-    # scraping(data_key＝アーティスト分繰り返す)
-    ########################################
+    ############
+    # scraping
+    ############
     artist_names = []
     release_titles = []
     release_dates = []

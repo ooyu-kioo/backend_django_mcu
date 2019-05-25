@@ -5,6 +5,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'unw0o)6)=tmp!)2rzi@2q33_#r5ws@1(ynwi95yfvx9bd=9(l3'
 # SECURITY WARNING: don't run with debug turned on in production!
+# エラー時にエラー内容を画面に出力(※本番環境ではfalse)
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -26,10 +27,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',  # request, responceのセキュリティ強化
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',  # CSRFトークンの検証
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
