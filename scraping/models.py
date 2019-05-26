@@ -2,6 +2,7 @@
 # DBのmodel設定：
 #
 import uuid
+from datetime import datetime
 from django.db import models
 from django.utils import timezone
 
@@ -23,6 +24,11 @@ class Infomation(models.Model):  # django標準のmodelクラスを継承
     # 管理ページ表示用
     def __str__(self):
         return self.artist_name
+
+    # Serializerで使用する関数を定義
+    def created_date(self):  # self=このclassのobject
+        self.created_at = self.created_at.date()
+        return self.created_at
 
 
 # リリース情報テーブル
