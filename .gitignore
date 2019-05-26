@@ -1,4 +1,9 @@
 .DS_Store
 .vscode
 local_settings.py
-__pycache__
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media
