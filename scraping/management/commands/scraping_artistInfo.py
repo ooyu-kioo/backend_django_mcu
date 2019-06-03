@@ -1,4 +1,4 @@
-# artistのインフォメーション
+# artistのインフォメーションをスクレイピング
 
 # import os
 import time

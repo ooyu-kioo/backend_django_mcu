@@ -1,3 +1,5 @@
+# リリース情報をスクレイピング(直近３ヶ月くらい)
+
 import json
 from django.core.management.base import BaseCommand, CommandError
 
