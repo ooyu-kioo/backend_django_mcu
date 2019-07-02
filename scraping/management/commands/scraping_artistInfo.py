@@ -1,4 +1,6 @@
-# artistのインフォメーションをスクレイピング
+#
+# artistinfoをscraping・label付け
+#
 
 # import os
 import time
@@ -11,6 +13,18 @@ import chromedriver_binary
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+
+# NLP
+import copy
+import numpy as np
+import nagisa  # 形態素解析
+import neologdn  # テキストの正規化
+import jctconv  # 半角文字 => 全角文字
+import re  # 正規表現
+import joblib  # model保存
+# 複数回出現する単語=分析に役立たない単語を見つけ出す
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.ensemble import RandomForestClassifier
 
 
 # ファイルを単体実行とmanage.py両方から実行できるよう、main()関数に処理を書いてclass commandに入れてやる
@@ -43,9 +57,9 @@ def main():
     with open("./scraping/management/commands/scraping_list.json", "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    ########################################
+    ##########################################
     # scraping(data_key＝アーティスト分繰り返す)
-    ########################################
+    ##########################################
     for data_key in data:
 
         url = data[data_key]["URL"]  # アクセスURL(infoに直とび)
@@ -68,7 +82,6 @@ def main():
             item = get_infoTitles[i]
             print(item.text)
             infoTitles.append(item.text)
-        print("")
         # 配列をリバース
         infoTitles.reverse()
 
@@ -89,9 +102,49 @@ def main():
             item = get_infoLinks[i]
             print(item.get_attribute('href'))
             infoLinks.append(item.get_attribute("href"))
-        print("")
         # 配列リバース
         infoLinks.reverse()
+
+        # ---------------
+        # infoのlabel付け
+        # ---------------
+        text_list = copy.deepcopy(infoTitles)
+        nagisa_list = np.array([])
+        new_tagger = nagisa.Tagger(
+            single_word_list=["凛として時雨", "ピエール中野", "tk from 凛として時雨"])  # ユーザー辞書定義
+
+        for item in text_list:
+            # 前処理
+            item = item.lower()  # アルファベット大文字 => 小文字へ変換
+            item = neologdn.normalize(item)  # 無駄なスペースなどを排除
+            item = jctconv.h2z(item)  # 半角文字 => 全角文字に変換
+            item = re.sub(r'\d+', '', item)  # 数字を空文字に変換
+
+            # 形態素解析
+            words = new_tagger.extract(item, extract_postags=['名詞'])  # 名詞のみ抽出
+            words = ' '.join(words.words)  # wordsの配列要素を半角スペースで結合
+            nagisa_list = np.append(nagisa_list, words)
+
+        # インスタンス生成(※vocabulary＝model作成時に使用したコーパス(使用しないとmodelと入力データの次元が一致しない))
+        vocabulary = joblib.load("mcu_vocabulary.jb")
+        vectorizer = TfidfVectorizer(vocabulary=vocabulary, token_pattern='(?u)\\b\\w+\\b', stop_words=[
+                                     "凛として時雨", "ピエール田中", "ヨルシカ", "uverworld", "topics", "alexandros"])
+        # ベクトル化
+        tfidf = vectorizer.fit_transform(nagisa_list)  # 引数は分かち書きされたlist
+        label_text = tfidf.toarray()
+
+        # 予測
+        rfc = joblib.load("mcu_randomForest.jb")
+        pred = rfc.predict(label_text)
+        pred_labels = pred.tolist()
+
+        # label変換
+        text_label = {1: "release", 2: "live", 3: "media", 4: "other"}
+        for i, item in enumerate(pred_labels, 0):
+            if item in text_label:
+                pred_labels[i] = text_label[item]
+            else:
+                pred_labels[i] = text_label[4]
 
         # -------
         # DB格納
@@ -106,39 +159,21 @@ def main():
 
         from scraping.models import Infomation  # Infomationテーブルをインポート
 
-        # test インスタンス生成、save これだと何か上手くいかない
-        # test = Infomation()
-        # test.artist_name = artistName
-        # test.info_title = infoTitle
-        # test.save
-
-        # DB格納用変数
+        # Infomationオブジェクト登録
         artist_name = data_key
-        info_title = ""
-        info_body_link = ""
-
-        # title,link設定
-        for infoTitle, infoLink in zip(infoTitles, infoLinks):
-            info_title = infoTitle
-            info_body_link = infoLink
+        for info_title, info_body_link, info_label in zip(infoTitles, infoLinks, pred_labels):
             try:  # id, created_at はdefault設定してるので自動で入る
                 Infomation.objects.create(
-                    artist_name=artist_name, info_title=info_title, info_body_link=info_body_link)  # Infomationオブジェクト作成
+                    artist_name=artist_name, info_title=info_title, info_body_link=info_body_link, info_label=info_label)
             except:
                 print(f"unique_error. infoTitle： {infoTitle}")  # 一意性エラー
                 pass
-        print("")
+
         # もしくは
         # obj = Infomation(artist_name = , info_title = )
         # obj.save()
 
-    # ドライバー終了
     driver.quit()
-
-    # 表示(エラースルー)
-    print("")
-    print(Infomation.objects.all())
-    print("")
     print("----- custom command [scraping] end -----")
 
 

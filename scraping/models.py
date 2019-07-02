@@ -19,6 +19,7 @@ class Infomation(models.Model):  # django標準のmodelクラスを継承
     info_title = models.CharField(max_length=300)
     info_body_link = models.CharField(
         max_length=300, unique=True)  # info詳細のリンク
+    info_label = models.CharField(max_length=30, default="other")
     created_at = models.DateTimeField(default=timezone.now)  # 作成日時
 
     # 管理ページ表示用

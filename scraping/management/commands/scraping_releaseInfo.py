@@ -91,8 +91,7 @@ def main():
     # 外部ファイルがdjangoのmodelを使用する場合、djangoのsetupが必要
     import os
     import django
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE",
-                          "django_vue_mcu.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_vue_mcu.settings")
     django.setup()  # (引数１の環境変数が引数２を指定するよう設定)
 
     from scraping.models import ReleaseInfo  # ReleaseInfoテーブルをインポート

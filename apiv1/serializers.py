@@ -15,7 +15,7 @@ class InfomationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Infomation  # 使用するmodel指定
         fields = ("id", "artist_name", "info_title",
-                  "info_body_link", "created_at")  # APIで返す使用するカラムを指定
+                  "info_body_link", "info_label", "created_at")  # APIで返すカラムを指定
 
     # 編集したいcolumn名をmethodFieldとして定義(新規columnの場合上記Fieldに追加)
     created_at = serializers.SerializerMethodField()
