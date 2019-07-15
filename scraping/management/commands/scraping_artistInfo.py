@@ -126,7 +126,8 @@ def main():
             nagisa_list = np.append(nagisa_list, words)
 
         # インスタンス生成(※vocabulary＝model作成時に使用したコーパス(使用しないとmodelと入力データの次元が一致しない))
-        vocabulary = joblib.load('mcu_vocabulary.jb')
+        vocabulary = joblib.load(
+            './scraping/management/commands/mcu_vocabulary.jb')
         vectorizer = TfidfVectorizer(vocabulary=vocabulary, token_pattern='(?u)\\b\\w+\\b', stop_words=[
                                      "凛として時雨", "ピエール田中", "ヨルシカ", "uverworld", "topics", "alexandros"])
         # ベクトル化
