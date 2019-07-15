@@ -127,7 +127,7 @@ def main():
 
         # インスタンス生成(※vocabulary＝model作成時に使用したコーパス(使用しないとmodelと入力データの次元が一致しない))
         vocabulary = joblib.load(
-            './scraping/management/commands/mcu_vocabulary.jb')
+            "./scraping/management/commands/mcu_vocabulary.jb")
         vectorizer = TfidfVectorizer(vocabulary=vocabulary, token_pattern='(?u)\\b\\w+\\b', stop_words=[
                                      "凛として時雨", "ピエール田中", "ヨルシカ", "uverworld", "topics", "alexandros"])
         # ベクトル化
@@ -135,7 +135,7 @@ def main():
         label_text = tfidf.toarray()
 
         # 予測
-        rfc = joblib.load("mcu_randomForest.jb")
+        rfc = joblib.load("./scraping/management/commands/mcu_randomForest.jb")
         pred = rfc.predict(label_text)
         pred_labels = pred.tolist()
 
