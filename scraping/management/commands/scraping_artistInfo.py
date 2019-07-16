@@ -167,7 +167,7 @@ def main():
                 Infomation.objects.create(
                     artist_name=artist_name, info_title=info_title, info_body_link=info_body_link, info_label=info_label)
             except:
-                print(f"unique_error. infoTitle： {infoTitle}")  # 一意性エラー
+                print(f"unique_error. infoTitle： {info_title}")  # 一意性エラー
                 pass
 
         # もしくは
