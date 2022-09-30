@@ -10,7 +10,7 @@ psycopg2==2.8.2
 nagisa==0.2.3
 neologdn==0.4
 jctconv==0.1.2
-joblib==0.13.2
+joblib==1.2.0
 numpy==1.16.1
 sklearn==0.0
 
